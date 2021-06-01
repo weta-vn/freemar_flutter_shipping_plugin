@@ -1,6 +1,6 @@
 # shipping_plugin
 
-A new Flutter plugin for shipping
+Shipping package for using in [Freemar.vn](https://freemar.vn) app (a shopping app for Vietnamese). Support GHN, GiaoHangTietKiem, Supership, ...
 
 ## Getting Started
 
