@@ -13,8 +13,8 @@ class ApiProvider {
   String apiVersion = "";
 
   ApiProvider() {
-    apiBaseUrl = GlobalConfiguration().getString("base_url");
-    apiVersion = GlobalConfiguration().getString("api_version");
+    apiBaseUrl = GlobalConfiguration().getValue("base_url");
+    apiVersion = GlobalConfiguration().getValue("api_version");
   }
 
   String _makeRequest(String command, Map params) {
