@@ -31,15 +31,15 @@ class ShippingStatusRealtime extends StatefulWidget {
   }
 }
 
-class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime>
-    with TickerProviderStateMixin {
+class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime> with TickerProviderStateMixin {
   ShippingAddress shippingAddress;
   String shippingAddressText = '';
   String shipPayMethodDescription = '';
+  int shippingProviderId;
 
   @override
   void initState() {
-    int shippingProviderId = widget.shipProvider.id;
+    shippingProviderId = widget.shipProvider.id;
     if (widget.isReturn) {
       if (widget.isBuyer) {
         shippingAddressText = 'Địa chỉ đưa hàng';
@@ -85,8 +85,7 @@ class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime>
   @override
   Widget build(BuildContext context) {
     bool inProgress = false;
-    if ((widget.shippingInformation?.listStatus != null &&
-        widget.shippingInformation.listStatus.length > 0)) {
+    if ((widget.shippingInformation?.listStatus != null && widget.shippingInformation.listStatus.length > 0)) {
       inProgress = true;
     }
     return Container(
@@ -117,13 +116,12 @@ class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime>
             createInfoLine(
                 context: context,
                 label: shippingAddressText,
-                message: shippingAddress.toString() ?? "",
+                message: shippingAddress.toAddress(shippingProviderId) ?? "",
                 icon: Icon(Icons.home),
                 isHorizontal: false),
             createInfoLine(
                 context: context,
-                label:
-                    widget.isReturn ? "Dịch vụ trả hàng" : "Dịch vụ giao hàng",
+                label: widget.isReturn ? "Dịch vụ trả hàng" : "Dịch vụ giao hàng",
                 message: widget.shipProvider.name,
                 subMessage: widget.shipProvider.description,
                 icon: Icon(Icons.person_pin),
@@ -131,18 +129,13 @@ class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime>
             createInfoLine(
                 context: context,
                 label: widget.isReturn ? "Phí trả hàng" : "Phí giao hàng",
-                message: formatCurrency(
-                    widget.shippingInformation?.shippingFee ?? 0),
-                subMessage: (widget.shippingInformation.shippingFee > 0)
-                    ? "* $shipPayMethodDescription"
-                    : "",
+                message: formatCurrency(widget.shippingInformation?.shippingFee ?? 0),
+                subMessage: (widget.shippingInformation.shippingFee > 0) ? "* $shipPayMethodDescription" : "",
                 icon: Icon(Icons.ac_unit),
                 isHorizontal: true),
             Container(
               padding: EdgeInsets.all(18.0),
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(8.0)),
+              decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(8.0)),
               margin: EdgeInsets.all(10.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -150,9 +143,7 @@ class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime>
                   Expanded(
                       child: Container(
                     child: Text(
-                      widget.isReturn
-                          ? 'Trạng thái trả hàng'
-                          : 'Trạng thái giao hàng',
+                      widget.isReturn ? 'Trạng thái trả hàng' : 'Trạng thái giao hàng',
                       style: TextStyle(color: Colors.grey.shade700),
                     ),
                   )),
@@ -163,14 +154,11 @@ class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime>
             widget.isShippingFailed
                 ? Container(
                     padding: EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(8.0)),
+                    decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(8.0)),
                     margin: EdgeInsets.all(10.0),
                     child: Text(
                       'Đơn hàng bị gặp sự cố và đang được xử lý. Chúng tôi sẽ liên lạc với bạn khi sự cố được khắc phục. ',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.red),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
                     ),
                   )
                 : const SizedBox(),
@@ -186,8 +174,7 @@ class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime>
               child: Row(
                 children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(
-                        color: Colors.green, shape: BoxShape.circle),
+                    decoration: BoxDecoration(color: Colors.green, shape: BoxShape.circle),
                     height: 16.0,
                     width: 16.0,
                   ),
@@ -197,8 +184,7 @@ class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(status.shippingStatus?.comment ?? ""),
-                        Text(DateFormat("yyyy-MM-dd hh:mm:ss")
-                            .format(status?.updatedAt ?? DateTime.now()))
+                        Text(DateFormat("yyyy-MM-dd hh:mm:ss").format(status?.updatedAt ?? DateTime.now()))
                       ],
                     ),
                   )

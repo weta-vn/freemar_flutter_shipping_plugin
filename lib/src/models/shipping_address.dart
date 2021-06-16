@@ -1,3 +1,4 @@
+import 'package:shipping_plugin/shipping_plugin.dart';
 import 'package:shipping_plugin/src/models/address/district.dart';
 import 'package:shipping_plugin/src/models/address/province.dart';
 import 'package:shipping_plugin/src/models/address/ward.dart';
@@ -55,6 +56,13 @@ class ShippingAddress {
 
   @override
   String toString() {
-    return "$name, $address, ${province.name}, ${district.name},${ward.name}";
+    return "$name, $address, ${province.name}, ${district.name}, ${ward.name}";
+  }
+
+  String toAddress(int shippingProviderId) {
+    if (shippingProviderId == ShipProviderEnum.GIAO_TAN_NOI || shippingProviderId == ShipProviderEnum.TU_DEN_LAY) {
+      return "$name - $phoneNumber \n$address, ${province.name}, ${district.name}, ${ward.name}";
+    }
+    return "$name, $address, ${province.name}, ${district.name}, ${ward.name}";
   }
 }
