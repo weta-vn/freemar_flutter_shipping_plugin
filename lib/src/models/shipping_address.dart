@@ -59,10 +59,7 @@ class ShippingAddress {
     return "$name, $address, ${province.name}, ${district.name}, ${ward.name}";
   }
 
-  String toAddress(int shippingProviderId) {
-    if (shippingProviderId == ShipProviderEnum.GIAO_TAN_NOI || shippingProviderId == ShipProviderEnum.TU_DEN_LAY) {
-      return "$name - $phoneNumber \n$address, ${province.name}, ${district.name}, ${ward.name}";
-    }
-    return "$name, $address, ${province.name}, ${district.name}, ${ward.name}";
+  String toAddress() {
+    return "$name - $phoneNumber \n$address, ${province.name}, ${district.name}, ${ward.name}";
   }
 }
