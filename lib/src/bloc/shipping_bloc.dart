@@ -4,7 +4,6 @@ import 'package:shipping_plugin/src/bloc/mixins/ghtk_mixin.dart';
 import 'package:shipping_plugin/src/bloc/mixins/supership_mixin.dart';
 import 'package:shipping_plugin/src/models/master_data.dart';
 import 'package:shipping_plugin/src/providers/ship_api_provider.dart';
-import 'package:uuid/uuid.dart';
 
 class ShippingBloc with GHTKMixin, SuperShipMixin, GHNMixin {
   ShipApiProvider _shipApiProvider = ShipApiProvider();
@@ -15,6 +14,7 @@ class ShippingBloc with GHTKMixin, SuperShipMixin, GHNMixin {
     this.ghtk = ghtk;
   }
 
+  ///Server of provider
   Future<int> calculateFee(ShippingAddress shippingFrom, ShippingAddress shippingTo, ShipProvider shipProvider,
       ShipProviderService shipProviderService, Map params) async {
     switch (shipProvider.id) {
@@ -83,6 +83,16 @@ class ShippingBloc with GHTKMixin, SuperShipMixin, GHNMixin {
         break;
     }
     return -1;
+  }
+
+  ///Server of you
+  Future<int> calculateFeeFromServer(int productId, int shippingFromId, int shippingToId, int serviceCode) {
+    return _shipApiProvider.calculateFee({
+      "product_id": productId,
+      "shipping_from_id": shippingFromId,
+      "shipping_to_id": shippingToId,
+      'service_code': serviceCode
+    });
   }
 
   Future<ShippingInformation> getShippingInformation(int shippingId, String accessToken) {

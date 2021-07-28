@@ -6,13 +6,13 @@ class ApiList {
   static const String API_UPDATE_SHIPPING_STATUS = "update_shipping_status";
   static const String API_SET_HAMLET = "set_hamlet";
   static const String API_CREATE_GHN_SHOP = "create_ghn_shop";
+  static const String API_CALCULATE_SHIPPING_FEE = 'calculate-fee';
 
   ///GHN
   static const String API_GHN_CALCULATE_FEE = "shipping-order/fee";
   static const String API_GHN_CREATE_ORDER = "shipping-order/create";
   static const String API_GHN_CREATE_STORE = "shop/register";
-  static const String API_GHN_FIND_AVAILABLE_SERVICES =
-      'shipping-order/available-services';
+  static const String API_GHN_FIND_AVAILABLE_SERVICES = 'shipping-order/available-services';
 
   ///SUPER SHIP
   static const String API_SUPERSHIP_CALCULATE_FEE = "orders/fee";

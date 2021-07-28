@@ -8,18 +8,15 @@ class ShipApiProvider extends ApiProvider {
   }
 
   Future<ShippingInformation> getShippingInformation(Map params) async {
-    var jsonData =
-        await this.getData(ApiList.API_GET_SHIPPING_INFORMATION, params);
+    var jsonData = await this.getData(ApiList.API_GET_SHIPPING_INFORMATION, params);
     if (jsonData["status"]) {
       return ShippingInformation.fromJSON(jsonData["data"]);
     }
     throw Exception(jsonData["message"]);
   }
 
-  Future<ShippingInformation> updateShippingStatus(
-      Map params, Map<String, String> headers) async {
-    var jsonData = await this
-        .postData(ApiList.API_UPDATE_SHIPPING_STATUS, params, headers: headers);
+  Future<ShippingInformation> updateShippingStatus(Map params, Map<String, String> headers) async {
+    var jsonData = await this.postData(ApiList.API_UPDATE_SHIPPING_STATUS, params, headers: headers);
     if (jsonData["status"]) {
       return ShippingInformation.fromJSON(jsonData["data"]);
     }
@@ -27,22 +24,28 @@ class ShipApiProvider extends ApiProvider {
   }
 
   Future<bool> setHamlet(Map params, Map<String, String> headers) async {
-    var jsonData =
-        await this.postData(ApiList.API_SET_HAMLET, params, headers: headers);
+    var jsonData = await this.postData(ApiList.API_SET_HAMLET, params, headers: headers);
     if (jsonData["status"]) {
       return true;
     }
     return false;
   }
 
-  Future<bool> createGhnShop(
-      String accessToken, int shippingAddressId, int ghnShopId) async {
-    var jsonData = await this.postData(ApiList.API_CREATE_GHN_SHOP,
-        {'shipping_address_id': shippingAddressId, 'ghn_shop_id': ghnShopId},
+  Future<bool> createGhnShop(String accessToken, int shippingAddressId, int ghnShopId) async {
+    var jsonData = await this.postData(
+        ApiList.API_CREATE_GHN_SHOP, {'shipping_address_id': shippingAddressId, 'ghn_shop_id': ghnShopId},
         headers: {'Authorization': 'Bearer $accessToken'});
     if (jsonData["status"]) {
       return true;
     }
     throw Exception(jsonData["message"]);
+  }
+
+  Future<int> calculateFee(Map params) async {
+    var jsonData = await this.getData(ApiList.API_CALCULATE_SHIPPING_FEE, params);
+    if (jsonData["status"]) {
+      return jsonData['fee'];
+    }
+    throw jsonData["message"];
   }
 }
