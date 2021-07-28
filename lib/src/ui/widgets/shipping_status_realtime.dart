@@ -111,7 +111,8 @@ class _ShippingStatusRealtimeState extends State<ShippingStatusRealtime> with Ti
             border: Border.all(
               color: inProgress ? Colors.green : Colors.red,
               width: 2.0,
-            )),
+            ),
+            borderRadius: BorderRadius.circular(8.0)),
         padding: EdgeInsets.all(8.0),
         margin: EdgeInsets.all(8.0),
         child: Column(
