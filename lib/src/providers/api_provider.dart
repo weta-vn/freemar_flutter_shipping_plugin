@@ -26,7 +26,8 @@ class ApiProvider {
       return "$apiBaseUrl/$apiVersion$apiUrlSuffix/$command";
   }
 
-  Future<dynamic> getData(String command, Map params, {Map<String, String> headers, cache = false}) async {
+  Future<dynamic> getData(String command, Map params,
+      {Map<String, String> headers, cache = false}) async {
     var jsonData;
 
     // Get json data
@@ -34,7 +35,7 @@ class ApiProvider {
       if (headers == null) headers = {};
       var request = _makeRequest(command, params);
       Response response;
-      if (cache) {
+      if (cache != null) {
         final file = await CacheManager(
           Config(
             'cachedProvinceData',
@@ -43,22 +44,27 @@ class ApiProvider {
             repo: JsonCacheInfoRepository(databaseName: 'cachedProvinceData'),
             fileService: HttpFileService(),
           ),
-        ).getSingleFile(request, headers: headers..addAll({'Content-Type': 'application/json'}));
+        ).getSingleFile(request,
+            headers: headers..addAll({'Content-Type': 'application/json'}));
         if (file != null && await file.exists()) {
           var res = await file.readAsString();
-          response = Response(res, 200, headers: {'content-type': 'application/json'});
+          response =
+              Response(res, 200, headers: {'content-type': 'application/json'});
         }
       } else {
-        response = await _client.get(request, headers: headers..addAll({'Content-Type': 'application/json'}));
+        response = await _client.get(Uri.parse(request),
+            headers: headers..addAll({'Content-Type': 'application/json'}));
       }
       if (response?.statusCode == 200) {
-        if (response.headers['content-type'].contains('json')) jsonData = compute(jsonDecode, response.body);
+        if (response.headers['content-type'].contains('json'))
+          jsonData = compute(jsonDecode, response.body);
       }
     }
     return jsonData;
   }
 
-  Future<dynamic> postData(String command, Map params, {Map<String, String> headers}) async {
+  Future<dynamic> postData(String command, Map params,
+      {Map<String, String> headers}) async {
     var jsonData;
 
     if (apiBaseUrl != "") {
@@ -69,7 +75,7 @@ class ApiProvider {
         url = "$apiBaseUrl/$apiVersion$apiUrlSuffix/$command";
       }
       final response = await _client.post(
-        url,
+        Uri.parse(url),
         body: json.encode(params),
         encoding: Encoding.getByName('utf-8'),
         headers: headers..addAll({'Content-Type': 'application/json'}),
